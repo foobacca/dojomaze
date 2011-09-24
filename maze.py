@@ -1,6 +1,14 @@
 #!/usr/bin/env python
 
 import random
+import subprocess
+
+PLUS = chr(206)
+PIPE = chr(186)
+BAR = chr(205)
+PLUS = '+'
+PIPE = '|'
+BAR = '-'
 
 def make_maze(width=10, height=10, random_maze=False):
     maze = []
@@ -25,40 +33,44 @@ def make_maze(width=10, height=10, random_maze=False):
 def carve_maze(maze):
     pass
 
-def show_maze(maze):
+def show_maze(maze, show_visited=False, current=None):
+    subprocess.call('clear')
     for row in maze:
         # for each row, print two lines
         # first line is +-+- ...
         line1 = []
         for node in row:
-            line1.append('+')
+            line1.append(PLUS)
             if node[0]:
                 line1.append(' ')
             else:
-                line1.append('-')
-        line1.append('+')
+                line1.append(BAR)
+        line1.append(PLUS)
         # line 2 is | | |
         line2 = []
         for node in row:
             if node[3]:
                 line2.append(' ')
             else:
-                line2.append('|')
-            line2.append(' ')
+                line2.append(PIPE)
+            if show_visited and node[4]:
+                line2.append('.')
+            else:
+                line2.append(' ')
         if row[-1][1]:
             line2.append(' ')
         else:
-            line2.append('|')
+            line2.append(PIPE)
         print ''.join(line1)
         print ''.join(line2)
     lastline = []
     for node in maze[-1]:
-        lastline.append('+')
+        lastline.append(PLUS)
         if node[2]:
             lastline.append(' ')
         else:
-            lastline.append('-')
-    lastline.append('+')
+            lastline.append(BAR)
+    lastline.append(PLUS)
     print ''.join(lastline)
 
 if __name__ == "__main__":
